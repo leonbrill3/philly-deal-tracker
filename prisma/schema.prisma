@@ -1,0 +1,57 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Property {
+  id            String   @id @default(cuid())
+  address       String
+  neighborhood  String   @default("Fishtown")
+  propertyType  String   @default("Land") // Land, Residential, Commercial, Industrial, Mixed-use
+  status        String   @default("Watching") // Watching, Contacted, Under Contract, Passed, Closed
+
+  price         Int?
+  sizeText      String? // e.g. "6,753 SF" or "0.12 acres"
+  zoning        String?
+  mls           String?
+  listingUrl    String?
+  brokerName    String?
+  brokerContact String?
+
+  lat           Float?
+  lng           Float?
+
+  addedBy       String?
+  notes         String?
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  rankings      Ranking[]
+}
+
+model Manager {
+  id        String    @id @default(cuid())
+  name      String    @unique
+  createdAt DateTime  @default(now())
+  rankings  Ranking[]
+}
+
+// One row per (manager, property) the manager has shortlisted.
+// `position` (1-based) is the manager's ranked order within their own list.
+model Ranking {
+  id         String   @id @default(cuid())
+  managerId  String
+  propertyId String
+  position   Int
+  createdAt  DateTime @default(now())
+
+  manager  Manager  @relation(fields: [managerId], references: [id], onDelete: Cascade)
+  property Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  @@unique([managerId, propertyId])
+}

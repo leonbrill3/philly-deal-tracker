@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+body {
+  font-family:
+    ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
+}
+
+/* Shared form control styling used by PropertyForm */
+.input {
+  width: 100%;
+  border-radius: 0.5rem;
+  border: 1px solid #d4d4d4;
+  background: #ffffff;
+  padding: 0.5rem 0.625rem;
+  font-size: 0.875rem;
+  color: #171717;
+}
+.input:focus {
+  outline: none;
+  border-color: #171717;
+  box-shadow: 0 0 0 1px #171717;
+}
+
+/* Keep Leaflet map controls/panes below the sticky header */
+.leaflet-container {
+  z-index: 0;
+}
