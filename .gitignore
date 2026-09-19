@@ -43,3 +43,6 @@ next-env.d.ts
 # local sqlite db (dev only)
 prisma/*.db
 prisma/*.db-journal
+
+# local deal data — seeded directly to prod, never committed
+prisma/seed-data.json
